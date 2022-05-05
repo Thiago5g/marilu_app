@@ -1,0 +1,105 @@
+
+/*
+ =========================================================
+ * Black Dashboard React v1.1.0 based on Black Dashboard - v1.1.0
+ =========================================================
+
+ * Product Page: https://www.creative-tim.com/product/becare-manager
+ * Copyright 2020 Creative Tim (https://www.creative-tim.com)
+ * Licensed under MIT (https://github.com/creativetimofficial/becare-manager/blob/master/LICENSE.md)
+
+ * Coded by Creative Tim
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
+
+ // Core
+
+@import "becare-manager/custom/functions";
+@import "becare-manager/bootstrap/functions";
+
+@import "becare-manager/custom/variables";
+@import "becare-manager/bootstrap/variables";
+
+@import "becare-manager/custom/mixins";
+@import "becare-manager/bootstrap/mixins";
+
+ // Bootstrap components
+
+@import "becare-manager/bootstrap/root";
+@import "becare-manager/bootstrap/reboot";
+@import "becare-manager/bootstrap/type";
+@import "becare-manager/bootstrap/images";
+@import "becare-manager/bootstrap/code";
+@import "becare-manager/bootstrap/grid";
+@import "becare-manager/bootstrap/tables";
+@import "becare-manager/bootstrap/forms";
+@import "becare-manager/bootstrap/buttons";
+@import "becare-manager/bootstrap/transitions";
+@import "becare-manager/bootstrap/dropdown";
+@import "becare-manager/bootstrap/button-group";
+@import "becare-manager/bootstrap/input-group";
+@import "becare-manager/bootstrap/custom-forms";
+@import "becare-manager/bootstrap/nav";
+@import "becare-manager/bootstrap/navbar";
+@import "becare-manager/bootstrap/card";
+@import "becare-manager/bootstrap/breadcrumb";
+@import "becare-manager/bootstrap/pagination";
+@import "becare-manager/bootstrap/badge";
+@import "becare-manager/bootstrap/jumbotron";
+@import "becare-manager/bootstrap/alert";
+@import "becare-manager/bootstrap/progress";
+@import "becare-manager/bootstrap/media";
+@import "becare-manager/bootstrap/list-group";
+@import "becare-manager/bootstrap/close";
+@import "becare-manager/bootstrap/modal";
+@import "becare-manager/bootstrap/tooltip";
+@import "becare-manager/bootstrap/popover";
+@import "becare-manager/bootstrap/carousel";
+@import "becare-manager/bootstrap/utilities";
+@import "becare-manager/bootstrap/print";
+
+ // Custom components
+
+ @import "becare-manager/custom/alerts.scss";
+ @import "becare-manager/custom/badges.scss";
+ @import "becare-manager/custom/buttons.scss";
+ @import "becare-manager/custom/dropdown.scss";
+ @import "becare-manager/custom/footer.scss";
+ @import "becare-manager/custom/forms.scss";
+ @import "becare-manager/custom/images.scss";
+ @import "becare-manager/custom/modal.scss";
+ @import "becare-manager/custom/navbar.scss";
+ @import "becare-manager/custom/type.scss";
+ @import "becare-manager/custom/tables";
+ @import "becare-manager/custom/checkboxes-radio";
+ @import "becare-manager/custom/fixed-plugin";
+ @import "becare-manager/custom/sidebar-and-main-panel.scss";
+ @import "becare-manager/custom/misc.scss";
+ @import "becare-manager/custom/rtl.scss";
+ @import "becare-manager/custom/input-group.scss";
+
+
+ // Vendor / Plugins
+
+@import "becare-manager/custom/vendor/plugin-perfect-scrollbar.scss";
+@import "becare-manager/custom/vendor/plugin-react-notification-alert.scss";
+
+// light mode
+
+@import "becare-manager/custom/white-content.scss";
+
+// Cards
+
+@import 'becare-manager/custom/card';
+@import "becare-manager/custom/cards/card-chart";
+@import "becare-manager/custom/cards/card-map";
+@import "becare-manager/custom/cards/card-user";
+@import "becare-manager/custom/cards/card-task";
+@import "becare-manager/custom/cards/card-plain";
+
+// React differences
+@import "becare-manager/react-differences/react-differences";

@@ -1,0 +1,55 @@
+{
+  "name": "becare",
+  "version": "1.0.0",
+  "description": "Nextel",
+  "main": "server.js",
+  "engines": {
+    "node": ">=8.10.0",
+    "npm": ">=5.6.0",
+    "yarn": ">=1.5.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "pm2": "pm2 reload ecosystem.config.js",
+    "lint": "eslint *.js app/** --color",
+    "lint:fix": "eslint *.js app/** --color --fix",
+    "test": "./node_modules/.bin/mocha ./app/test --ui bdd --reporter spec --colors server --recursive --timeout 10000",
+    "test:coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha ./app/test/* --ui bdd --reporter -R spec --colors server --recursive --report html"
+  },
+  "keywords": [
+    "Nextel"
+  ],
+  "author": "Felipe Gomes",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "cors": "^2.8.5",
+    "cross-env": "^5.2.0",
+    "database-cleaner": "^1.2.0",
+    "eslint": "^5.2.0",
+    "express": "^4.16.3",
+    "express-validation": "^1.0.2",
+    "http-status": "^1.2.0",
+    "istanbul": "^0.4.5",
+    "joi": "^13.4.0",
+    "jsonwebtoken": "^8.3.0",
+    "mocha": "^5.2.0",
+    "mongoose": "^5.12.8",
+    "mysql2": "^2.2.5",
+    "node": "^12.13.0",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5",
+    "sinon": "^6.1.4",
+    "supertest": "^3.1.0",
+    "supertest-as-promised": "^4.0.2",
+    "tedious": "^9.2.1"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.2.0"
+  }
+}
