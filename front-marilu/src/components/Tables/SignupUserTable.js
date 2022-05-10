@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { formatCep, onlyLetters, maskEmail, onlyNumbers, formatPhone } from 'helpers/mask';
+import signupUserService from '../../services/signupUser.service'
+import { Notification } from "../../helpers/notification";
+import { formatCpf, formatPhone, isPhoneValid, isEmailValid, formatCep } from '../../helpers/mask'
+import { getSellerCompany } from "../../services/sellerCompany.service";
+import Select from "react-select";
 import {
   Row,
   Col,
@@ -20,8 +24,8 @@ const SignupClientTable = (props) => {
   const [cidade, setCidade] = useState('')
   const [estado, setEstado] = useState('')
   const [cnpj, setCnpj] = useState('')
-
-  console.log(bairro, 'bairro')
+  const [passwordVisibility, setPasswordVisibility] = useState(false)
+  const [sellerCompany, setSellerCompany] = useState([])
 
   console.log(formFull, 'formFull')
 
@@ -50,31 +54,96 @@ const SignupClientTable = (props) => {
       })
   }
 
-//   const axios = require("axios");
+  const signupNewUser = async () => {
 
-// useEffect(() => {
-
-//   const options = {
-//     method: 'GET',
-//     url: `https://consulta-cnpj-gratis.p.rapidapi.com/office/${cnpj}`,
-//     params: {simples: 'false'},
-//     headers: {
-//       'X-RapidAPI-Host': 'consulta-cnpj-gratis.p.rapidapi.com',
-//       'X-RapidAPI-Key': '47698fad2bmshc96ec49a3688bc8p18703cjsn1f7515fd1d5d'
-//     }
-//   };
-
-//   axios.request(options).then(function (response) {
-//     console.log(response.data.address);
-//     setBairro(response.data.address.district)
-//   }).catch(function (error) {
-//     console.error(error);
-//   });
-// })
-
-  const handleSignup = () => {
     setFormFull(getValues())
-  }
+
+    const newUserData = {
+      nome: formFull?.nome,
+      cpf: formFull?.cpf,
+      cep: formFull?.CEP,
+      endereco: formFull?.endereco,
+      numero: formFull?.numero,
+      bairro: formFull?.bairro,
+      cidade: formFull?.cidade,
+      estado: formFull?.estado,
+      telefone: formFull?.telefone,
+      vendedor: formFull?.vendedor,
+      email: formFull?.email,
+      senha: formFull?.senha,
+      senha2: formFull?.senha2
+    };
+    console.log(newUserData, 'newUserData')
+
+    const contentSaveUser = (
+      <div>
+        <i
+          style={{ fontSize: "18px", marginRight: "10px" }}
+          className="tim-icons icon-check-2"
+        />
+        Cadastro feito com sucesso
+      </div>
+    );
+
+    const saveClient = await signupUserService.post(newUserData);
+    if (signupUserService.error) {
+      alert("Tivemos um problema para cadastrar usuario. tente novamente!");
+    } else {
+      Notification(contentSaveUser, "success");
+    }
+  };
+
+  console.log(formFull?.razaoSocial, 'social')
+
+  const handlePasswordVisibility = () => setPasswordVisibility(!passwordVisibility)
+
+  //   const axios = require("axios");
+
+  // useEffect(() => {
+
+  //   const options = {
+  //     method: 'GET',
+  //     url: `https://consulta-cnpj-gratis.p.rapidapi.com/office/${cnpj}`,
+  //     params: {simples: 'false'},
+  //     headers: {
+  //       'X-RapidAPI-Host': 'consulta-cnpj-gratis.p.rapidapi.com',
+  //       'X-RapidAPI-Key': '47698fad2bmshc96ec49a3688bc8p18703cjsn1f7515fd1d5d'
+  //     }
+  //   };
+
+  //   axios.request(options).then(function (response) {
+  //     console.log(response.data.address);
+  //     setBairro(response.data.address.district)
+  //   }).catch(function (error) {
+  //     console.error(error);
+  //   });
+  // })
+
+  const optionAdm = [
+    { value: 1, label: 'Não' },
+    { value: 2, label: 'Sim' }
+  ]
+
+  useEffect(() => {
+    const getSellerCompanyList = async () => {
+      if (sellerCompany.length === 0) {
+        const result = await getSellerCompany();
+        setSellerCompany(result);
+      }
+    };
+    getSellerCompanyList();
+  });
+
+  // const optionSellerCompanyCode = sellerCompany?.map((value) => value.code)
+  // const optionSellerCompanyName = sellerCompany?.map((value) => value.name)
+
+  // const optionSellerCompanyData = sellerCompany.map(value => {
+  //   return (
+  //     value: value.code,
+  //     label: value.name
+  //   (
+  // }
+
 
   return <>
     <Form onSubmit={handleSubmit(handleSubmit)}>
@@ -99,8 +168,12 @@ const SignupClientTable = (props) => {
               {...register("cpf")}
               id="cpf"
               name="cpf"
+              maxLength={14}
               onBlur={(e) => setCnpj(e.target.value)}
-                onChange={(e) => setValue('cpf', e.target.value)}
+              onChange={(e) => setValue('cpf', e.target.value
+                .replace(/\D/g, '')
+                .replace(/[^0-9]/g, "")
+                .replace(/(\d{5})(\d{3})/, '$1-$2'))}
               type="text"
               placeholder="CPF">
             </Input>
@@ -122,7 +195,7 @@ const SignupClientTable = (props) => {
           </FormGroup>
         </Col>
       </Row>
-      <Row>        
+      <Row>
         <Col md="3">
           <FormGroup>
             <label>CEP</label>
@@ -132,7 +205,7 @@ const SignupClientTable = (props) => {
               name="CEP"
               onBlur={handleCep}
               maxLength={9}
-              onChange={(e) => setValue('CEP', formatCep(e.target.value))}
+              onChange={(e) => setValue('CEP', e.target.value)}
               autoFocus
               autoComplete='autocompleteOff'
               type="text"
@@ -189,7 +262,7 @@ const SignupClientTable = (props) => {
           </FormGroup>
         </Col>
       </Row>
-      <Row>        
+      <Row>
         <Col md="4">
           <FormGroup>
             <label>Cidade</label>
@@ -244,9 +317,18 @@ const SignupClientTable = (props) => {
               {...register("vendedor")}
               id="vendedor"
               name="vendedor"
+              type={"select"}
+              placeholder="Vendedor"
               onChange={(e) => setValue('vendedor', e.target.value)}
-              type="select"
-              placeholder="Vendedor">
+              // value={sellerCompanyExternalInput}
+              key="index"
+            >
+              <option></option>
+              {sellerCompany.map((value, index) => (
+                <option value={value.code} key={index}>
+                  {value.name}
+                </option>
+              ))}
             </Input>
           </FormGroup>
         </Col>
@@ -255,36 +337,66 @@ const SignupClientTable = (props) => {
         <Col md="4">
           <FormGroup>
             <label>Senha</label>
+            <span
+              onClick={handlePasswordVisibility}
+              style={{ cursor: 'pointer', position: 'absolute', zIndex: 10, marginTop: 34, marginLeft: 440 }}>
+              {passwordVisibility ? <i className="fas fa-eye-slash" /> : <i className="fas fa-eye" />}
+            </span>
             <Input
               {...register("senha")}
               id="senha"
               name="senha"
               onChange={(e) => setValue('senha', e.target.value)}
-              type="text"
+              type={passwordVisibility ? "text" : "password"}
               placeholder="Senha">
+
             </Input>
           </FormGroup>
         </Col>
         <Col md="4">
           <FormGroup>
             <label>Confirmar senha</label>
+            <span
+              onClick={handlePasswordVisibility}
+              style={{ cursor: 'pointer', position: 'absolute', zIndex: 10, marginTop: 34, marginLeft: 375 }}>
+              {passwordVisibility ? <i className="fas fa-eye-slash" /> : <i className="fas fa-eye" />}
+            </span>
             <Input
               {...register("senha2")}
               id="senha2"
               name="senha2"
               onBlur={(e) => setCnpj(e.target.value)}
               onChange={(e) => setValue('senha2', e.target.value)}
-              type="text"
+              type={passwordVisibility ? "text" : "password"}
               placeholder="Confirmar senha">
             </Input>
           </FormGroup>
         </Col>
-      </Row>      
+        <Col md="4">
+          <FormGroup>
+            <label>Administrador:</label>
+            <Input
+              {...register("role")}
+              id="role"
+              name="role"
+              type={"select"}
+              placeholder="Selecione"
+              onChange={(e) => setValue('role', e.target.value)}
+              // value={sellerCompanyExternalInput}
+              key="index"
+            >
+              <option></option>
+              <option value={1}>Não</option>
+              <option value={2}>Sim</option>
+            </Input>
+          </FormGroup>
+        </Col>
+      </Row>
       <Row>
         <Col md={{ size: 2, offset: 10 }}>
           <Button
             style={{ width: "100%", marginTop: "28px" }}
-            onClick={handleSignup}
+            onClick={signupNewUser}
             className="btn-fill"
             color="primary"
             type="button"

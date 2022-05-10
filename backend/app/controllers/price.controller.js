@@ -14,14 +14,8 @@ module.exports = {
         "DA1.DA1_CODPRO AS codproduct, " +
         "SB1.B1_DESC AS description, " +
         "SB1.B1_UM AS unity, " +
-        "DA1.DA1_PRCVEN AS price, " +
-		"DA1.DA1_VCOMI2 AS price2, " +
-		"DA1.DA1_VCOMI3 AS price3, " +
-		"DA1.DA1_VCOMI4 AS price4, " +	
-		"DA1.DA1_PRCVEN AS price5, " +		
-        "DA1.DA1_MARSEG AS security, " +
-        "DA1.DA1_PERCOM AS commission " +
-        "FROM DA1010 DA1 INNER JOIN SB1010 SB1 ON DA1.DA1_CODPRO = SB1.B1_COD " +
+        "DA1.DA1_PRCVEN AS price " +
+	    "FROM DA1010 DA1 INNER JOIN SB1010 SB1 ON DA1.DA1_CODPRO = SB1.B1_COD " +
         "WHERE SB1.D_E_L_E_T_ = '' AND DA1.D_E_L_E_T_ = ''";
 
 			if (productCod && productCod !== "")

@@ -16,12 +16,9 @@ module.exports = {
 				"SB1010.B1_UPRC AS customedio, " +
                 "SB1010.B1_CONV AS estoqueBruto," +
                 "SB1010.B1_ESTSEG AS reserva, " +
-                "DA1010.DA1_PRCVEN AS price, " +
-				"DA1010.DA1_MARSEG AS security, " +
-                "DA1010.DA1_PERCOM AS commission " +
+                "DA1010.DA1_PRCVEN AS price " +				
                 "FROM SB1010 INNER JOIN DA1010 ON DA1010.DA1_CODPRO = SB1010.B1_COD " +
                 `WHERE DA1010.DA1_CODTAB = '${tableProduct}'  AND DA1010.D_E_L_E_T_ = '' `;
-
 
 			const products = await connection.query(query, {
 				type: connection.QueryTypes.SELECT,

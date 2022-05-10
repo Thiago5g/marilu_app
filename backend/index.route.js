@@ -12,6 +12,8 @@ const checkSession = require("./app/routes/check.routes");
 const routesShippingCompany = require("./app/routes/shipping.routes");
 const routesSellerCompany = require("./app/routes/seller.routes");
 const routesAssistentSellerCompany = require("./app/routes/assistent-seller.routes ");
+const signupClient = require("./app/routes/signupClient.routes");
+const signupUser = require("./app/routes/signupUser.routes");
 
 
 const auth = require("./app/middlewares/auth.js");
@@ -25,6 +27,8 @@ router.use("/auth", routesAuth);
 router.use("/budget", auth, routesBudget);
 router.use("/products", auth, routesProduct);
 router.use("/clients", auth, clientsProduct);
+router.use("/signup-clients", auth, signupClient);
+router.use("/signup-user", auth, signupUser);
 // router.use("/signupClients", auth, signupClientsProduct);
 router.use("/sellers", auth, sellers);
 router.use("/paymentsType", auth, paymentsType);

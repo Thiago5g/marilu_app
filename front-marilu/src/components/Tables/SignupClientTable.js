@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { formatCep, onlyLetters, maskEmail, onlyNumbers, formatPhone } from 'helpers/mask';
+import signupClientService from '../../services/signupClient.service'
+import { Notification } from "../../helpers/notification";
+
 import {
   Row,
   Col,
@@ -50,31 +53,51 @@ const SignupClientTable = (props) => {
       })
   }
 
-//   const axios = require("axios");
+  const signupNewClient = async () => {
 
-// useEffect(() => {
-
-//   const options = {
-//     method: 'GET',
-//     url: `https://consulta-cnpj-gratis.p.rapidapi.com/office/${cnpj}`,
-//     params: {simples: 'false'},
-//     headers: {
-//       'X-RapidAPI-Host': 'consulta-cnpj-gratis.p.rapidapi.com',
-//       'X-RapidAPI-Key': '47698fad2bmshc96ec49a3688bc8p18703cjsn1f7515fd1d5d'
-//     }
-//   };
-
-//   axios.request(options).then(function (response) {
-//     console.log(response.data.address);
-//     setBairro(response.data.address.district)
-//   }).catch(function (error) {
-//     console.error(error);
-//   });
-// })
-
-  const handleSignup = () => {
     setFormFull(getValues())
-  }
+
+    const newClientData = {
+      razaosocial: formFull?.razaoSocial,
+      nomefantasia: formFull?.nomeFantasia,
+      cpfoucnpj: formFull?.CPFouCNPJ,
+      inscricao: formFull?.inscricaoEstadual,
+      cep: formFull?.CEP,
+      endereco: formFull?.endereco,
+      numero: formFull?.numero,
+      bairro: formFull?.bairro,
+      cidade: formFull?.cidade,
+      estado: formFull?.estado,
+      telefone: formFull?.telefone,
+      email: formFull?.email,
+      representante: formFull?.responsavel
+    };
+    console.log(newClientData, 'newClientData')
+
+    const contentSaveClient = (
+      <div>
+        <i
+          style={{ fontSize: "18px", marginRight: "10px" }}
+          className="tim-icons icon-check-2"
+        />
+        Cadastro feito com sucesso
+      </div>
+    );
+
+    const saveClient = await signupClientService.post(newClientData);
+    if (signupClientService.error) {
+      alert("Tivemos um problema para cadastrar usuario. tente novamente!");
+    } else {
+      Notification(contentSaveClient, "success");
+    }
+  };
+
+  console.log(formFull?.razaoSocial, 'social')
+
+  // const handleSignup = () => {
+  //   setFormFull(getValues())
+  //   signupNewClient()
+  // }
 
   return <>
     <Form onSubmit={handleSubmit(handleSubmit)}>
@@ -113,7 +136,7 @@ const SignupClientTable = (props) => {
               id="CPFouCNPJ"
               name="CPFouCNPJ"
               onBlur={(e) => setCnpj(e.target.value)}
-                onChange={(e) => setValue('CPFouCNPJ', e.target.value)}
+              onChange={(e) => setValue('CPFouCNPJ', e.target.value)}
               type="text"
               placeholder="CPF ou CNPJ">
             </Input>
@@ -315,7 +338,7 @@ const SignupClientTable = (props) => {
         <Col md={{ size: 2, offset: 10 }}>
           <Button
             style={{ width: "100%", marginTop: "28px" }}
-            onClick={handleSignup}
+            onClick={signupNewClient}
             className="btn-fill"
             color="primary"
             type="button"

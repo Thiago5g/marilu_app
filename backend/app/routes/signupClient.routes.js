@@ -4,9 +4,9 @@ const SignupClientController = require("../controllers/signupClient.controller")
 
 const routes = express.Router();
 
-routes.put("/", SignupClientController.update);
+// routes.put("/", SignupClientController.update);
 
-routes.post("/signupClient", SignupClientController.signup )
+routes.post("/signupClient", SignupClientController.register )
 
 // routes.get("/", permissions.typeStandard, permissions.havePermissions, ClientController.index )
 
